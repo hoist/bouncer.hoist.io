@@ -1,0 +1,19 @@
+{
+  "name": "bouncer.hoist.io",
+  "version": "1.0.0",
+  "description": "Hoist's Auth Server",
+  "main": "app.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hoist/bouncer.hoist.io.git"
+  },
+  "author": "Hoist Apps Ltd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hoist/bouncer.hoist.io/issues"
+  },
+  "homepage": "https://github.com/hoist/bouncer.hoist.io"
+}
