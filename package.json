@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/hoist/bouncer.hoist.io",
   "dependencies": {
+    "bluebird": "^2.3.11",
     "config": "^1.8.1",
     "hapi": "^7.5.2",
     "hoist-model": "git://github.com/hoist/hoist-model",
