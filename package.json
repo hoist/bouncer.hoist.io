@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/hoist/bouncer.hoist.io",
   "dependencies": {
-    "hapi": "^7.5.2"
+    "config": "^1.8.1",
+    "hapi": "^7.5.2",
+    "hoist-model": "git://github.com/hoist/hoist-model",
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
