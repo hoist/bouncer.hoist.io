@@ -51,7 +51,7 @@ describe('StateController', function () {
       }
     };
     before(function (done) {
-      sinon.stub(bouncerToken, 'saveAsync');
+      sinon.stub(bouncerToken, 'saveAsync').returns(BBPromise.resolve(null));
       sinon.stub(ConnectorModule, 'loadConnector')
         .withArgs(connectorSettings)
         .returns(BBPromise.resolve(connector));
@@ -129,7 +129,7 @@ describe('StateController', function () {
       }
     };
     before(function (done) {
-      sinon.stub(bouncerToken, 'saveAsync');
+      sinon.stub(bouncerToken, 'saveAsync').returns(BBPromise.resolve(null));
       sinon.stub(ConnectorModule, 'loadConnector')
         .withArgs(connectorSettings)
         .returns(BBPromise.resolve(connector));
