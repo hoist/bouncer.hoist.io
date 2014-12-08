@@ -1,4 +1,5 @@
 'use strict';
+require('../../bootstrap');
 var RedirectController = require('../../../lib/controllers/redirect_controller');
 var sinon = require('sinon');
 var expect = require('chai').expect;

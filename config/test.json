@@ -1,0 +1,7 @@
+{
+  "Hoist":{
+    "session":{
+      "key":"test_encryption_key"
+    }
+  }
+}
