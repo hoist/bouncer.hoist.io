@@ -1,9 +1,12 @@
 {
   "Hoist": {
+    "mongo": {
+      "db": "mongodb://localhost/hoist-test?replicaSet=test"
+    },
     "session": {
       "key": "test_encryption_key"
     },
-  "connectors": {
+    "connectors": {
       "path": "./tests/fixtures/connectors",
       "currentDirectoryName": "current"
     }

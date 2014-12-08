@@ -62,7 +62,7 @@ describe('RedirectController', function () {
           }).returns(BBPromise.resolve(connectorSettings));
         sinon.stub(Model.BouncerToken.prototype, 'saveAsync', function () {
           _savedToken = this;
-          return BBPromise.resolve([token]);
+          return BBPromise.resolve(token);
         });
         server.inject({
           method: 'GET',
