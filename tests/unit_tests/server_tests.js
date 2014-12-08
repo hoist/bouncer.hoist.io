@@ -33,7 +33,8 @@ describe('BouncerServer', function () {
           isHttpOnly: true,
           isSecure: true,
           password: 'test_encryption_key',
-          autoValue: {}
+          autoValue: {},
+          path: '/'
         });
     });
     it('creates a hapi server', function () {
