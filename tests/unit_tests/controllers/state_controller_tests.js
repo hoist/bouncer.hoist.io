@@ -24,14 +24,91 @@ describe('StateController', function () {
       return expect(server.route)
         .to.be.calledWith({
           handler: StateController.bounce,
-          path: '/bounce/{key}',
+          path: '/bounce/{key?}',
           method: 'GET'
         });
     });
   });
+  describe('GET /bounce', function () {
+    var _response;
+    var server = BouncerServer.getServer();
+    var bouncerToken = new Model.BouncerToken({
+      application: 'appid',
+      environment: 'live',
+      key: 'bounce_token',
+      connectorKey: 'connector_key'
+    });
+    var connectorSettings = {
+      application: 'appid',
+      environment: 'live',
+      key: 'connector_key',
+      type: 'test_connector'
+    };
+    var connector = {
+      receiveBounce: function (bounce) {
+        bounce.set('key', 'value');
+        bounce.redirect('http://example.com');
+      }
+    };
+    before(function (done) {
+      sinon.stub(bouncerToken, 'saveAsync');
+      sinon.stub(ConnectorModule, 'loadConnector')
+        .withArgs(connectorSettings)
+        .returns(BBPromise.resolve(connector));
+      sinon.stub(Model.BouncerToken, 'findOneAsync')
+        .withArgs({
+          key: 'bounce_token'
+        }).returns(BBPromise.resolve(bouncerToken));
+      sinon.stub(Model.ConnectorSetting, 'findOneAsync')
+        .withArgs({
+          application: 'appid',
+          environment: 'live',
+          key: 'connector_key'
+        }).returns(BBPromise.resolve(connectorSettings));
+
+      return iron.seal('bounce_token', config.get('Hoist.session.key'), iron.defaults, function (err, value) {
+        var c = cookie.stringify({
+          name: 'bouncer-token',
+          value: value,
+        });
+        server.inject({
+          method: 'GET',
+          url: '/bounce',
+          headers: {
+            cookie: c
+          }
+        }, function (response) {
+          _response = response;
+          done();
+        });
+      });
+    });
+    after(function () {
+      bouncerToken.saveAsync.restore();
+      ConnectorModule.loadConnector.restore();
+      Model.BouncerToken.findOneAsync.restore();
+      Model.ConnectorSetting.findOneAsync.restore();
+    });
+    it('redirects user', function () {
+      return expect(_response.statusCode).to.eql(302);
+    });
+    it('saves state', function () {
+      return expect(bouncerToken.saveAsync).to.have.been.called;
+    });
+    it('sets state key', function () {
+      return expect(bouncerToken.state.key).to.eql('value');
+    });
+    it('sets token in browser state', function () {
+      var cookies = cookie.parse(_response.headers['set-cookie'][0]);
+      return BBPromise.try(function () {
+        return iron.unsealAsync(cookies.value, config.get('Hoist.session.key'), iron.defaults);
+      }).then(function (value) {
+        expect(value).to.eql('bounce_token');
+      });
+    });
+  });
   describe('GET /bounce/{key}', function () {
     var _response;
-
     var server = BouncerServer.getServer();
     var bouncerToken = new Model.BouncerToken({
       application: 'appid',
@@ -74,12 +151,11 @@ describe('StateController', function () {
         done();
       });
     });
-    after(function(){
+    after(function () {
       bouncerToken.saveAsync.restore();
       ConnectorModule.loadConnector.restore();
       Model.BouncerToken.findOneAsync.restore();
       Model.ConnectorSetting.findOneAsync.restore();
-      
     });
     it('redirects user', function () {
       return expect(_response.statusCode).to.eql(302);
@@ -91,9 +167,10 @@ describe('StateController', function () {
       return expect(bouncerToken.state.key).to.eql('value');
     });
     it('sets token in browser state', function () {
-      var cookies = cookie.parse(_response.headers['set-cookie'][0]);
+      var c = cookie.parse(_response.headers['set-cookie'][0]);
       return BBPromise.try(function () {
-        return iron.unsealAsync(cookies.value, config.get('Hoist.session.key'), iron.defaults);
+        expect(c.name).to.eql('bouncer-token');
+        return iron.unsealAsync(c.value, config.get('Hoist.session.key'), iron.defaults);
       }).then(function (value) {
         expect(value).to.eql('bounce_token');
       });
