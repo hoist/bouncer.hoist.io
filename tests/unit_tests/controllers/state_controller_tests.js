@@ -66,7 +66,9 @@ describe('StateController', function () {
           key: 'connector_key'
         }).returns(BBPromise.resolve(connectorSettings));
 
-      return iron.seal('bounce_token', config.get('Hoist.session.key'), iron.defaults, function (err, value) {
+      return iron.seal({
+        key: 'bounce_token'
+      }, config.get('Hoist.session.key'), iron.defaults, function (err, value) {
         var c = cookie.stringify({
           name: 'bouncer-token',
           value: value,
@@ -103,7 +105,7 @@ describe('StateController', function () {
       return BBPromise.try(function () {
         return iron.unsealAsync(cookies.value, config.get('Hoist.session.key'), iron.defaults);
       }).then(function (value) {
-        expect(value).to.eql('bounce_token');
+        expect(value).to.eql(bouncerToken.toObject());
       });
     });
   });
@@ -172,7 +174,7 @@ describe('StateController', function () {
         expect(c.name).to.eql('bouncer-token');
         return iron.unsealAsync(c.value, config.get('Hoist.session.key'), iron.defaults);
       }).then(function (value) {
-        expect(value).to.eql('bounce_token');
+        expect(value).to.eql(bouncerToken.toObject());
       });
     });
     describe('with invalid bounce token', function () {

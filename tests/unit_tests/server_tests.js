@@ -32,7 +32,8 @@ describe('BouncerServer', function () {
           encoding: 'iron',
           isHttpOnly: true,
           isSecure: true,
-          password: 'test_encryption_key'
+          password: 'test_encryption_key',
+          autoValue: {}
         });
     });
     it('creates a hapi server', function () {

@@ -12,8 +12,6 @@ describe('ConnectorModule', function () {
 
     var currentPath = path.resolve(deployedPath, '../current');
     before(function () {
-
-      //fs.mkdirSync(currentPath);
       fs.symlinkSync(deployedPath, currentPath);
       return connectorModule.loadConnector(new Model.ConnectorSetting({
         connectorType: 'test-connector'
@@ -21,7 +19,7 @@ describe('ConnectorModule', function () {
         _connector = connector;
       });
     });
-    after(function(){
+    after(function () {
       fs.unlinkSync(currentPath);
     });
     it('returns instance of test connector', function () {
