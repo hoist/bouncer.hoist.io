@@ -74,6 +74,13 @@ describe('StateController', function () {
         done();
       });
     });
+    after(function(){
+      bouncerToken.saveAsync.restore();
+      ConnectorModule.loadConnector.restore();
+      Model.BouncerToken.findOneAsync.restore();
+      Model.ConnectorSetting.findOneAsync.restore();
+      
+    });
     it('redirects user', function () {
       return expect(_response.statusCode).to.eql(302);
     });

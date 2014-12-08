@@ -1,7 +1,11 @@
 {
-  "Hoist":{
-    "session":{
-      "key":"test_encryption_key"
+  "Hoist": {
+    "session": {
+      "key": "test_encryption_key"
+    },
+    "connectors": {
+      "path": "./tests/fixtures/connectors",
+      "currentDirectoryName": "current"
     }
   }
 }
