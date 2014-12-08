@@ -77,7 +77,7 @@ describe('RedirectController', function () {
       });
       it('redirects the user to bounce', function () {
         return expect(_response.headers.location)
-          .to.match(/\/bounce\/tokenkey$/);
+          .to.eql('https://bouncer.hoist.local/bounce/tokenkey');
       });
       describe('with invalid key', function () {
         var _response;

@@ -1,18 +1,22 @@
 {
-  "Hoist":{
-    "mongo":{
-      "db":"mongodb://localhost/hoist-portal?replicaSet=test"
+  "Hoist": {
+    "mongo": {
+      "db": "mongodb://localhost/hoist-portal?replicaSet=test"
     },
-    "http":{
-      "port":3000
+    "http": {
+      "port": 3000,
+      "secure": false
     },
-    "session":{
-      "key":"WjFCbVrTL7ynQ]iLfwkiCRoVn$YvceH"
+    "session": {
+      "key": "WjFCbVrTL7ynQ]iLfwkiCRoVn$YvceH"
     },
     "cookies": {
       "secure": true,
       "httpOnly": true,
-      "domain":"bouncer.hoist.io"
+      "domain": "bouncer.hoist.io"
+    },
+    "domains": {
+      "bouncer": "bouncer.hoist.local"
     }
   }
 }

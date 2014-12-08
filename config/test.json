@@ -9,6 +9,11 @@
     "connectors": {
       "path": "./tests/fixtures/connectors",
       "currentDirectoryName": "current"
+    },
+    "http": {
+      "secure": true
     }
+
+
   }
 }
