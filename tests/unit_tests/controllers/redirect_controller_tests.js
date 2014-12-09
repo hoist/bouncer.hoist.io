@@ -79,6 +79,10 @@ describe('RedirectController', function () {
         return expect(_response.headers.location)
           .to.eql('https://bouncer.hoist.local/bounce/tokenkey');
       });
+      it('sets hoist token header',function(){
+        return expect(_response.headers['x-hoist-auth-token'])
+          .to.eql('tokenkey');
+      });
       describe('with invalid key', function () {
         var _response;
         before(function (done) {
