@@ -19,6 +19,7 @@
   "dependencies": {
     "bluebird": "^2.3.11",
     "config": "^1.8.1",
+    "handlebars": "^2.0.0",
     "hapi": "^7.5.2",
     "hoist-errors": "git://github.com/hoist/hoist-errors",
     "hoist-logger": "git://github.com/hoist/hoist-logger",
