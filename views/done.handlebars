@@ -1,0 +1,37 @@
+<html>
+  <head>
+  <title>Authentication</title>
+  <style type="text/css">
+    /*! normalize.css v3.0.1 | MIT License | git.io/normalize */html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background:0 0}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{height:auto}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}body{margin:0;background-color:#f9f9fc}.display{display:block;position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);width:315px;height:auto;margin:0 auto;border:2px solid #f2f2f2;background:#fff;padding:30px}.image{width:50px;height:50px;margin:10px auto 20px}.image img{width:50px;height:50px}.info{color:#939394;font-family:Helvetica;font-size:14px;font-style:normal;font-weight:300;line-height:1.45em;text-align:center;margin-bottom:15px}.links{text-align:center;margin-top:5px;margin-bottom:10px}.link{color:#cfcfcf;font-family:Helvetica;font-size:12px;font-style:normal;font-weight:300;letter-spacing:normal;line-height:1.45em;opacity:1;text-align:center;text-decoration:underline}.error-block{background-color:#fff;border-radius:3px;border:2px solid #f2f2f2;max-height:80px;padding:10px;color:#939394;font-family:Consolas,monospace;font-size:10px;font-style:normal;font-weight:300;letter-spacing:normal;line-height:1.45em;opacity:1;text-align:left;overflow:auto}.token{display:block;border-radius:3px;border:2px solid #f2f2f2;width:311px;text-align:center;font-weight:700;padding:8px 0;margin-top:20px;font-size:14px;font-family:Consolas 'monospace';}
+  </style>
+  <script type="text/javascript">
+  function toggle() { var errorDiv = document.getElementById("error"); var errorLink = document.getElementById("errorLink"); if(errorDiv.style.display === 'none') { errorDiv.style.display = 'block'; errorLink.innerHTML = "Hide Full Error"; } else { errorDiv.style.display = 'none'; errorLink.innerHTML = "View Full Error"; }}
+  </script>
+  </head>
+  <body>
+  <div class="display">
+    <div class="image">
+        <img src="https://portal.hoist.io/images/connectors/{{connectorType}}100x100.png" />
+      </div>
+      <div class="info">
+        {{#if error}}
+        There was an error authenticating you.<br />Please try again, or contact application support.
+        {{else}}
+          You have been successfully authenticated.
+          {{#if token}} 
+            <br />Your authentication token is
+            <input class="token" spellcheck="false" onclick="this.select()" value="{{token}}" />
+          {{/if}}
+        {{/if}}
+      </div>
+      {{#if error}}
+      <div class="links">
+        <a href="javascript:" id="errorLink" onclick="toggle()" class="link">View Full Error</a>
+      </div>
+      <div class="error-block" id="error" style="display:none;">
+        {{error}}
+      </div>
+      {{/if}}
+    </div>
+  </body>
+</html>
