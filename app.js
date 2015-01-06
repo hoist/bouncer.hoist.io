@@ -2,7 +2,7 @@
 var logger = require('hoist-logger');
 var server = require('./lib/server');
 
-
+process.title = 'bouncer.hoist.io';
 process.on('message', function (msg) {
   if (msg === 'shutdown') {
     console.log('closing connection');
