@@ -11,8 +11,8 @@ describe('BouncerServer', function () {
   describe('#start', function () {
     var mockHapiServer = {
       start: sinon.stub().yields(),
-      state: sinon.stub()
-
+      state: sinon.stub(),
+      views: sinon.stub()
     };
     before(function (done) {
       sinon.stub(Hapi, 'Server').returns(mockHapiServer);

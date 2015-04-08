@@ -63,6 +63,7 @@ describe('Integration', function () {
       ]);
     });
     it('returns redirect', function () {
+      console.log(_response);
       expect(_response.headers.location)
         .to.match(/\/bounce\/[^\/]*/);
     });
