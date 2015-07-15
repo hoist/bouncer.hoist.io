@@ -1,5 +1,5 @@
 'use strict';
-var logger = require('hoist-logger');
+var logger = require('@hoist/logger');
 var server = require('./lib/server');
 
 process.title = 'bouncer.hoist.io';
@@ -9,7 +9,7 @@ var gracefullShutdown = function (SIG) {
     SIG: SIG
   }, 'server stopping');
   return Promise.all([
-    server.stop()
+    server.end()
   ]).then(function () {
     process.kill(process.pid, SIG);
   }).catch(function (err) {
