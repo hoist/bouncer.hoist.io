@@ -5,11 +5,12 @@ var sinon = require('sinon');
 var router = require('../../lib/routes');
 var server = require('../../lib/server');
 var expect = require('chai').expect;
-var Model = require('hoist-model');
+var Model = require('@hoist/model');
 
 describe('BouncerServer', function () {
   describe('#start', function () {
     var mockHapiServer = {
+      connection: sinon.stub(),
       start: sinon.stub().yields(),
       state: sinon.stub(),
       views: sinon.stub()
@@ -28,7 +29,7 @@ describe('BouncerServer', function () {
     it('creates state for token', function () {
       return expect(mockHapiServer.state)
         .to.have.been.calledWith('bouncer-token', {
-          domain: 'bouncer.hoist.io',
+          domain: 'bouncer.hoist.local',
           encoding: 'iron',
           isHttpOnly: true,
           isSecure: true,
@@ -38,9 +39,12 @@ describe('BouncerServer', function () {
         });
     });
     it('creates a hapi server', function () {
-      return expect(Hapi.Server)
+      return expect(mockHapiServer.connection)
         .to.have.been
-        .calledWith(3000);
+        .calledWith({
+          host: '0.0.0.0',
+          port: 8000
+        });
     });
     it('starts server', function () {
       return expect(mockHapiServer.start)

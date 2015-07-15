@@ -1,7 +1,7 @@
 'use strict';
 require('../../bootstrap');
 var sinon = require('sinon');
-var errors = require('hoist-errors');
+var errors = require('@hoist/errors');
 var expect = require('chai').expect;
 
 describe('BaseController', function () {

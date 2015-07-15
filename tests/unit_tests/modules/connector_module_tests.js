@@ -1,7 +1,7 @@
 'use strict';
 var connectorModule = require('../../../lib/modules/connector_module');
 var TestConnector = require('../../fixtures/connectors/test-connector/deployed');
-var Model = require('hoist-model');
+var Model = require('@hoist/model');
 var expect = require('chai').expect;
 var path = require('path');
 var fs = require('fs');
