@@ -2,7 +2,7 @@
 var BBPromise = require('bluebird');
 var server = require('../../lib/server');
 var config = require('config');
-var Model = require('hoist-model');
+var Model = require('@hoist/model');
 var expect = require('chai').expect;
 var mongoose = Model._mongoose;
 describe('Integration', function () {
@@ -12,7 +12,7 @@ describe('Integration', function () {
       return done();
     }
     //mongoose.set('debug', true);
-    mongoose.connect(config.get('Hoist.mongo.db'), done);
+    mongoose.connect(config.get('Hoist.mongo.core.connectionString'), done);
   });
   after(function (done) {
     mongoose.disconnect(function () {

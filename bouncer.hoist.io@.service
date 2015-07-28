@@ -1,0 +1,17 @@
+[Unit]
+Description=bouncer.hoist.io service
+After=config.service
+
+[Service]
+User=core
+Restart=always
+ExecStartPre=-/usr/bin/docker kill bouncer.hoist.io-%i
+ExecStartPre=-/usr/bin/docker rm bouncer.hoist.io-%i
+ExecStartPre=-/usr/bin/docker pull quay.io/hoist/bouncer.hoist.io:docker
+ExecStart=/usr/bin/docker run --name bouncer.hoist.io-%i  -e "SERVICE_TAGS=http,nodejs,bouncer,production,https-hoist-io" -e "SERVICE_NAME=bouncer2" -e "NODE_ENV=production" --volumes-from config -P quay.io/hoist/bouncer.hoist.io:docker
+ExecStop=/usr/bin/docker stop bouncer.hoist.io-%i
+TimeoutStartSec=30m
+
+[X-Fleet]
+Conflicts=bouncer.hoist.io@*.service
+MachineMetadata=container_type=web

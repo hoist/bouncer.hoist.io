@@ -1,19 +1,23 @@
 {
   "Hoist": {
     "mongo": {
-      "db": "mongodb://localhost/hoist-portal?replicaSet=test"
+      "core": {
+        "connectionString": "mongodb://db/hoist-default"
+      }
+    },
+    "filePaths": {
+      "connectors": "/shares/connectors"
     },
     "http": {
-      "port": 3000,
-      "secure": false
-    },
-    "session": {
-      "key": "WjFCbVrTL7ynQ]iLfwkiCRoVn$YvceH"
+      "host": "0.0.0.0",
+      "port": 8000
     },
     "cookies": {
-      "secure": true,
-      "httpOnly": true,
-      "domain": "bouncer.hoist.io"
+      "bouncer": {
+        "secure": false,
+        "password": "bouncer-session-key",
+        "name": "bouncer-sid"
+      }
     },
     "domains": {
       "bouncer": "bouncer.hoist.local"

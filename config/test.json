@@ -1,19 +1,18 @@
 {
   "Hoist": {
     "mongo": {
-      "db": "mongodb://localhost/hoist-test?replicaSet=test"
+      "core": {
+        "connectionString": "mongodb://db/hoist-test"
+      }
     },
-    "session": {
-      "key": "test_encryption_key"
+    "filePaths": {
+      "connectors": "./tests/fixtures/connectors"
     },
-    "connectors": {
-      "path": "./tests/fixtures/connectors",
-      "currentDirectoryName": "current"
-    },
-    "http": {
-      "secure": true
+    "cookies": {
+      "bouncer": {
+        "secure": true,
+        "password": "test_encryption_key"
+      }
     }
-
-
   }
 }

@@ -4,7 +4,7 @@ var StateController = require('../../../lib/controllers/state_controller');
 var sinon = require('sinon');
 var expect = require('chai').expect;
 var BouncerServer = require('../../../lib/server');
-var Model = require('hoist-model');
+var Model = require('@hoist/model');
 var cookie = require('simple-cookie');
 var BBPromise = require('bluebird');
 var iron = BBPromise.promisifyAll(require('iron'));
@@ -68,7 +68,7 @@ describe('StateController', function () {
 
       return iron.seal({
         key: 'bounce_token'
-      }, config.get('Hoist.session.key'), iron.defaults, function (err, value) {
+      }, config.get('Hoist.cookies.bouncer.password'), iron.defaults, function (err, value) {
         var c = cookie.stringify({
           name: 'bouncer-token',
           value: value,
@@ -103,7 +103,7 @@ describe('StateController', function () {
     it('sets token in browser state', function () {
       var cookies = cookie.parse(_response.headers['set-cookie'][0]);
       return BBPromise.try(function () {
-        return iron.unsealAsync(cookies.value, config.get('Hoist.session.key'), iron.defaults);
+        return iron.unsealAsync(cookies.value, config.get('Hoist.cookies.bouncer.password'), iron.defaults);
       }).then(function (value) {
         expect(value).to.eql(bouncerToken.toObject());
       });
@@ -172,7 +172,7 @@ describe('StateController', function () {
       var c = cookie.parse(_response.headers['set-cookie'][0]);
       return BBPromise.try(function () {
         expect(c.name).to.eql('bouncer-token');
-        return iron.unsealAsync(c.value, config.get('Hoist.session.key'), iron.defaults);
+        return iron.unsealAsync(c.value, config.get('Hoist.cookies.bouncer.password'), iron.defaults);
       }).then(function (value) {
         expect(value).to.eql(bouncerToken.toObject());
       });

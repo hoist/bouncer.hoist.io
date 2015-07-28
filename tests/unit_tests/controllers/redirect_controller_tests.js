@@ -4,7 +4,7 @@ var RedirectController = require('../../../lib/controllers/redirect_controller')
 var sinon = require('sinon');
 var expect = require('chai').expect;
 var BouncerServer = require('../../../lib/server');
-var Model = require('hoist-model');
+var Model = require('@hoist/model');
 var BBPromise = require('bluebird');
 
 describe('RedirectController', function () {
