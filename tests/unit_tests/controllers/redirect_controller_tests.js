@@ -141,9 +141,6 @@ describe('RedirectController', function () {
       });
     });
     describe('GET /initiate/{apiKey}/{key}', function () {
-      var organisation = {
-        _id: 'orgid'
-      };
       var application = {
         _id: 'appid',
         apiKey: 'my_api_key'
