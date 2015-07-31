@@ -45,11 +45,13 @@ describe('RedirectController', function () {
       var _response;
       var _savedToken;
       before(function (done) {
-        sinon.stub(Model.Organisation, 'findOneAsync')
+        sinon.stub(Model.Organisation, 'findOneAsync').returns(BBPromise.resolve(null));
+        sinon.stub(Model.Application, 'findOneAsync').returns(BBPromise.resolve(null));
+        Model.Organisation.findOneAsync
           .withArgs({
             slug: 'org_slug'
           }).returns(BBPromise.resolve(organisation));
-        sinon.stub(Model.Application, 'findOneAsync')
+        Model.Application.findOneAsync
           .withArgs({
             slug: 'app_slug',
             organisation: 'orgid'
@@ -158,11 +160,8 @@ describe('RedirectController', function () {
       var _response;
       var _savedToken;
       before(function (done) {
-        sinon.stub(Model.Organisation, 'findOneAsync')
-          .withArgs({
-            slug: 'org_slug'
-          }).returns(BBPromise.resolve(organisation));
-        sinon.stub(Model.Application, 'findOneAsync')
+        sinon.stub(Model.Application, 'findOneAsync').returns(BBPromise.resolve(null));
+        Model.Application.findOneAsync
           .withArgs({
             apiKey: 'my_api_key'
           }).returns(BBPromise.resolve(application));
@@ -227,24 +226,7 @@ describe('RedirectController', function () {
             .to.eql('404');
         });
       });
-      describe('with invalid orgSlug', function () {
-        var _response;
-        before(function (done) {
-          server.inject({
-            method: 'GET',
-            url: '/initiate/other_org_slug/app_slug/my_connector_key'
-          }, function (response) {
-            _response = response;
-            done();
-          });
-        });
-        it('returns 404 error', function () {
-          return expect(_response.statusCode)
-            .to.eql('404');
-        });
-      });
       after(function () {
-        Model.Organisation.findOneAsync.restore();
         Model.Application.findOneAsync.restore();
         Model.ConnectorSetting.findOneAsync.restore();
         Model.BouncerToken.prototype.saveAsync.restore();
