@@ -1,11 +1,13 @@
 'use strict';
 require('../bootstrap');
+
+var Model = require('@hoist/model');
 var Hapi = require('hapi');
 var sinon = require('sinon');
 var router = require('../../lib/routes');
 var server = require('../../lib/server');
 var expect = require('chai').expect;
-var Model = require('@hoist/model');
+var Bluebird = require('bluebird');
 
 describe('BouncerServer', function () {
   describe('#start', function () {
@@ -19,7 +21,7 @@ describe('BouncerServer', function () {
       sinon.stub(Hapi, 'Server').returns(mockHapiServer);
       sinon.stub(router, 'init');
       sinon.stub(Model._mongoose, 'connect').yields();
-      server.start(done);
+      server.start().then(done);
     });
     after(function () {
       Hapi.Server.restore();
@@ -62,18 +64,18 @@ describe('BouncerServer', function () {
   });
   describe('#end', function () {
     var mockHapiServer = {
-      stop: sinon.stub().yields()
+      stopAsync: sinon.stub().returns(Bluebird.resolve())
     };
     before(function (done) {
       server.server = mockHapiServer;
       sinon.stub(Model._mongoose, 'disconnect').yields();
-      server.end(done);
+      server.end().then(done);
     });
     after(function () {
       Model._mongoose.disconnect.restore();
     });
     it('stops hapi server', function () {
-      return expect(mockHapiServer.stop)
+      return expect(mockHapiServer.stopAsync)
         .to.have.been.called;
     });
     it('disconnects mongoose', function () {
