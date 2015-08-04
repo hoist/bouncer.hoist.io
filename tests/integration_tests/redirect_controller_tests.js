@@ -63,7 +63,54 @@ describe('Integration', function () {
       ]);
     });
     it('returns redirect', function () {
-      console.log(_response);
+      expect(_response.headers.location)
+        .to.match(/\/bounce\/[^\/]*/);
+    });
+  });
+  describe('GET /initiate/{apiKey}/{key}', function () {
+    var organisation = new Model.Organisation({
+      _id: 'orgid',
+      name: 'test_org',
+      slug: 'orgslug'
+    });
+    var application = new Model.Application({
+      _id: 'appid',
+      slug: 'appslug',
+      organisation: 'orgid',
+      apiKey: 'myApiKey'
+    });
+    var connectorSetting = new Model.ConnectorSetting({
+      name: 'my connector',
+      application: 'appid',
+      environment: 'live',
+      key: 'connector_key'
+    });
+    var _response;
+    before(function (done) {
+      return BBPromise.all([
+        organisation.saveAsync(),
+        application.saveAsync(),
+        connectorSetting.saveAsync()
+      ]).then(function () {
+        server.getServer().inject({
+          method: 'GET',
+          url: '/initiate/myApiKey/connector_key'
+        }, function (response) {
+          _response = response;
+          done();
+        });
+      });
+
+    });
+    after(function () {
+      return BBPromise.all([
+        Model.Organisation.removeAsync({}),
+        Model.Application.removeAsync({}),
+        Model.ConnectorSetting.removeAsync({}),
+        Model.BouncerToken.removeAsync({})
+      ]);
+    });
+    it('returns redirect', function () {
       expect(_response.headers.location)
         .to.match(/\/bounce\/[^\/]*/);
     });

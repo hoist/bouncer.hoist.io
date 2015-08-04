@@ -45,11 +45,13 @@ describe('RedirectController', function () {
       var _response;
       var _savedToken;
       before(function (done) {
-        sinon.stub(Model.Organisation, 'findOneAsync')
+        sinon.stub(Model.Organisation, 'findOneAsync').returns(BBPromise.resolve(null));
+        sinon.stub(Model.Application, 'findOneAsync').returns(BBPromise.resolve(null));
+        Model.Organisation.findOneAsync
           .withArgs({
             slug: 'org_slug'
           }).returns(BBPromise.resolve(organisation));
-        sinon.stub(Model.Application, 'findOneAsync')
+        Model.Application.findOneAsync
           .withArgs({
             slug: 'app_slug',
             organisation: 'orgid'
@@ -133,6 +135,95 @@ describe('RedirectController', function () {
       });
       after(function () {
         Model.Organisation.findOneAsync.restore();
+        Model.Application.findOneAsync.restore();
+        Model.ConnectorSetting.findOneAsync.restore();
+        Model.BouncerToken.prototype.saveAsync.restore();
+      });
+    });
+    describe('GET /initiate/{apiKey}/{key}', function () {
+      var application = {
+        _id: 'appid',
+        apiKey: 'my_api_key'
+      };
+      var connectorSettings = {
+        application: 'appid',
+        environment: 'live',
+        key: 'connectorkey'
+      };
+      var server = BouncerServer.getServer();
+      var token = {
+        key: 'tokenkey'
+      };
+      var _response;
+      var _savedToken;
+      before(function (done) {
+        sinon.stub(Model.Application, 'findOneAsync').returns(BBPromise.resolve(null));
+        Model.Application.findOneAsync
+          .withArgs({
+            apiKey: 'my_api_key'
+          }).returns(BBPromise.resolve(application));
+        sinon.stub(Model.ConnectorSetting, 'findOneAsync')
+          .withArgs({
+            application: 'appid',
+            environment: 'live',
+            key: 'my_connector_key'
+          }).returns(BBPromise.resolve(connectorSettings));
+        sinon.stub(Model.BouncerToken.prototype, 'saveAsync', function () {
+          _savedToken = this;
+          return BBPromise.resolve(token);
+        });
+        server.inject({
+          method: 'GET',
+          url: '/initiate/my_api_key/my_connector_key'
+        }, function (response) {
+          _response = response;
+          done();
+        });
+      });
+      it('creates a bouncer token', function () {
+        return expect(_savedToken).to.exist;
+      });
+      it('redirects the user to bounce', function () {
+        return expect(_response.headers.location)
+          .to.eql('https://bouncer.hoist.local/bounce/tokenkey');
+      });
+      it('sets hoist token header',function(){
+        return expect(_response.headers['x-hoist-auth-token'])
+          .to.eql('tokenkey');
+      });
+      describe('with invalid key', function () {
+        var _response;
+        before(function (done) {
+          server.inject({
+            method: 'GET',
+            url: '/initiate/my_api_key/other_connector_key'
+          }, function (response) {
+            _response = response;
+            done();
+          });
+        });
+        it('returns 404 error', function () {
+          return expect(_response.statusCode)
+            .to.eql('404');
+        });
+      });
+      describe('with invalid apiKey', function () {
+        var _response;
+        before(function (done) {
+          server.inject({
+            method: 'GET',
+            url: '/initiate/other_api_key/my_connector_key'
+          }, function (response) {
+            _response = response;
+            done();
+          });
+        });
+        it('returns 404 error', function () {
+          return expect(_response.statusCode)
+            .to.eql('404');
+        });
+      });
+      after(function () {
         Model.Application.findOneAsync.restore();
         Model.ConnectorSetting.findOneAsync.restore();
         Model.BouncerToken.prototype.saveAsync.restore();
