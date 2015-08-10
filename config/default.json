@@ -1,5 +1,8 @@
 {
   "Hoist": {
+    "application": {
+      "name": "bouncer.hoist.io"
+    },
     "mongo": {
       "core": {
         "connectionString": "mongodb://db/hoist-default"
