@@ -1,0 +1,25 @@
+{
+  "Hoist": {
+    "admin": {
+      "applicationId": "docker-admin-app"
+    },
+    "cookies": {
+      "bouncer": {
+        "secure": true,
+        "password": "bouncer-session-key",
+        "name": "bouncer-sid",
+        "domain": "bouncer.hoist.local"
+      }
+    },
+    "filePaths": {
+      "deploys": "/shares/deploys",
+      "connectors": "/shares/connectors"
+    },
+    "domains": {
+      "api": "api.hoi.local",
+      "portal": "portal.hoist.local",
+      "bouncer": "bouncer.hoist.local"
+    }
+  }
+
+}

@@ -9,7 +9,10 @@
       }
     },
     "filePaths": {
-      "connectors": "/shares/connectors"
+      "repositories": "/shares/repos",
+      "deploys": "/shares/deploys",
+      "connectors": "/shares/connectors",
+      "certificates": "/certs"
     },
     "http": {
       "host": "0.0.0.0",
