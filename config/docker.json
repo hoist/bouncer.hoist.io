@@ -7,8 +7,7 @@
       "bouncer": {
         "secure": true,
         "password": "bouncer-session-key",
-        "name": "bouncer-sid",
-        "domain": "bouncer.hoist.local"
+        "name": "bouncer-sid"
       }
     },
     "filePaths": {
@@ -16,9 +15,9 @@
       "connectors": "/shares/connectors"
     },
     "domains": {
-      "api": "api.hoi.local",
-      "portal": "portal.hoist.local",
-      "bouncer": "bouncer.hoist.local"
+      "api": "api.hoi.test",
+      "portal": "portal.hoist.test",
+      "bouncer": "bouncer.hoist.test"
     }
   }
 
