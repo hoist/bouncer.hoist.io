@@ -113,7 +113,7 @@ describe('StateController', function () {
       return BBPromise.try(function () {
         return iron.unsealAsync(cookies.value, config.get('Hoist.cookies.bouncer.password'), iron.defaults);
       }).then(function (value) {
-        expect(JSON.stringify(value)).to.eql(JSON.stringify(bouncerToken.toObject()));
+        expect(value).to.eql(bouncerToken.toObject());
       });
     });
   });
