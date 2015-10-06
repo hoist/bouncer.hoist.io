@@ -7,8 +7,8 @@ User=core
 Restart=always
 ExecStartPre=-/usr/bin/docker kill bouncer.hoist.io-%i
 ExecStartPre=-/usr/bin/docker rm bouncer.hoist.io-%i
-ExecStartPre=-/usr/bin/docker pull quay.io/hoist/bouncer.hoist.io:master
-ExecStart=/usr/bin/docker run --name bouncer.hoist.io-%i -m 150M -e "SERVICE_TAGS=http,nodejs,bouncer,production,https-hoist-io" -e "SERVICE_NAME=bouncer" -e "NODE_ENV=production" -e "SERVICE_8000_CHECK_HTTP=/api/heartbeat" -e "SERVICE_8000_CHECK_INTERVAL=15s" --volumes-from config -P quay.io/hoist/bouncer.hoist.io:master
+ExecStartPre=-/usr/bin/docker pull hoist/bouncer.hoist.io:master
+ExecStart=/usr/bin/docker run --name bouncer.hoist.io-%i -m 150M -e "SERVICE_TAGS=http,nodejs,bouncer,production,https-hoist-io" -e "SERVICE_NAME=bouncer" -e "NODE_ENV=production" -e "SERVICE_8000_CHECK_HTTP=/api/heartbeat" -e "SERVICE_8000_CHECK_INTERVAL=15s" --volumes-from config -P hoist/bouncer.hoist.io:master
 ExecStop=/usr/bin/docker stop bouncer.hoist.io-%i
 TimeoutStartSec=30m
 
