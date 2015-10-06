@@ -47,6 +47,8 @@ describe('StateController', function () {
     var connector = {
       receiveBounce: function (bounce) {
         bounce.set('key', 'value');
+        bounce.setDisplayProperty('Organisation Name', 'Hoist Apps Limited');
+        bounce.setDisplayProperty('Organisation Name', 'Super Star');
         bounce.redirect('http://example.com');
       }
     };
@@ -99,6 +101,12 @@ describe('StateController', function () {
     });
     it('sets state key', function () {
       return expect(bouncerToken.state.key).to.eql('value');
+    });
+    it('sets display property', function () {
+      return expect(bouncerToken.displayProperties[0].name).to.eql('Organisation Name');
+    });
+    it('sets overwrites original property', function () {
+      return expect(bouncerToken.displayProperties[0].value).to.eql('Super Star');
     });
     it('sets token in browser state', function () {
       var cookies = cookie.parse(_response.headers['set-cookie'][0]);
