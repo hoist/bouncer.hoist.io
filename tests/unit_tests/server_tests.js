@@ -45,7 +45,7 @@ describe('BouncerServer', function () {
         .to.have.been
         .calledWith({
           host: '0.0.0.0',
-          port: 8001
+          port: 8000
         });
     });
     it('starts server', function () {
