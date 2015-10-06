@@ -30,7 +30,7 @@ test:
     - docker rm mongodb; true;
     - docker kill bouncer.hoist.io-test; true;
     - docker rm bouncer.hoist.io-test; true;
-    - docker run -d --name mongodb mongo
+    - docker run -d --name mongodb mongo:3.0.5
     - docker run -t --link mongodb:db --name bouncer.hoist.io-test --entrypoint gulp hoist/bouncer.hoist.io:${CIRCLE_BRANCH//feature\//} test
   post:
     - docker cp bouncer.hoist.io-test:/usr/src/app/coverage ~/
