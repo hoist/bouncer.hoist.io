@@ -46,10 +46,13 @@ describe('StateController', function () {
     };
     var connector = {
       receiveBounce: function (bounce) {
-        bounce.set('key', 'value');
-        bounce.setDisplayProperty('Organisation Name', 'Hoist Apps Limited');
-        bounce.setDisplayProperty('Organisation Name', 'Super Star');
-        bounce.redirect('http://example.com');
+        bounce.set('key', 'value').then(function() {
+          return bounce.setDisplayProperty('Organisation Name', 'Hoist Apps Limited');
+        }).then(function() {
+          return bounce.setDisplayProperty('Organisation Name', 'Super Star');
+        }).then(function() {
+          return bounce.redirect('http://example.com');
+        });
       }
     };
     before(function (done) {
