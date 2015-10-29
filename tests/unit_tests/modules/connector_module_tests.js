@@ -14,7 +14,8 @@ describe('ConnectorModule', function () {
     before(function () {
       fs.symlinkSync(deployedPath, currentPath);
       return connectorModule.loadConnector(new Model.ConnectorSetting({
-        connectorType: 'test-connector'
+        connectorType: 'test-connector',
+        settings: {}
       })).then(function (connector) {
         _connector = connector;
       });

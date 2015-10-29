@@ -32,6 +32,8 @@ describe('BouncerServer', function () {
       return expect(mockHapiServer.state)
         .to.have.been.calledWith('bouncer-token', {
           domain: 'bouncer.hoist.local',
+          clearInvalid: true,
+          ignoreErrors: true,
           encoding: 'iron',
           isHttpOnly: true,
           isSecure: true,
