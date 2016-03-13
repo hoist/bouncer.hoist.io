@@ -6,7 +6,5 @@ web:
    - "3003:8000"
   environment:
    - NODE_ENV=docker
-   - HTTP_PROXY=http://10.211.55.2:8888
-   - NODE_TLS_REJECT_UNAUTHORIZED=0
   volumes_from:
    - hoist_config_1
